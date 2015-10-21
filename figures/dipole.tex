@@ -1,0 +1,27 @@
+\usetikzlibrary{calc}
+
+\pgfplotsset{every  tick/.style={pdcolor3,}, minor x tick num=1,}
+
+\begin{tikzpicture}
+
+  \begin{axis}[xlabel = $Q^2$, ylabel = $F(Q^2)$, ylabel near ticks, domain=1:10, scale=0.5, axis lines = left, inner axis line style={>=latex}, ymin = 0, ymax = 0.275, xmin = 1, xmax = 10.5]
+    
+    \addplot[mark=none, color=pdcolor1, ultra thick] {1 / (1 + x) / (1 + x)};
+    \addplot[mark=none, dashed, color=pdcolor3, thick] coordinates {(1,0.25) (10,0.25) (10,0)};
+
+    
+    \foreach \x in {1,...,200}
+    {
+      \pgfmathparse{rnd}
+      \pgfmathsetmacro{\a}{9.0*\pgfmathresult + 0.95}
+      \pgfmathparse{rnd}
+      \pgfmathsetmacro{\b}{0.23*\pgfmathresult + 0.01}
+      \pgfmathsetmacro{\c}{\b - 1 / (1 + \a) / (1 + \a)}
+      	  
+      \ifthenelse{\lengthtest{\c pt > 0.01 pt}}{\addplot[mark=*, mark size = 1pt, color=pdcolor6] coordinates {(\a, \b)};}{}
+      \ifthenelse{\lengthtest{\c pt < -0.01 pt}}{\addplot[mark=*, mark size = 1pt, color=pdcolor7] coordinates {(\a, \b)};}{}
+    }
+    
+  \end{axis}
+
+\end{tikzpicture}

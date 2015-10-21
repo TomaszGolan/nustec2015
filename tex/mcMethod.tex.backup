@@ -1,0 +1,187 @@
+\section{Monte Carlo method}
+
+\begin{wideslide}{Buffon's needle problem}
+\null\vfill
+
+  \twocolumn
+  {
+    {\it Suppose we have a floor made of parallel strips of wood, each the same width, and we drop a needle onto the floor. What is the probability that the needle will lie across a line between two strips?}
+    
+    \sep
+    
+    {\it\hfill Georges-Louis Leclerc,\\\hfill Comte de Buffon\\\hfill 18th century}
+  }
+  {
+    \sep\sep
+    \centering\input{figures/buffon.tex}
+  }
+  
+  \vspace{-10pt}
+  \myBoxFullWidth{Monte Carlo without computers}
+  
+  \twocolumn
+  {
+    If needle length ($l$) $<$ lines width ($t$):
+    
+    $$P = \frac{2l}{t\pi}$$
+    
+    which can be used to estimate $\pi$:
+    
+    $$\pi = \frac{2l}{tP}$$
+  }
+  {
+    MC experiment was performed by Mario Lazzarini in 1901 by throwing 3408 needles:
+    
+    $$\pi = \frac{2l \cdot 3408}{t \cdot \#red} = \frac{355}{113} = 3.14159292$$
+  }
+  
+\vfill\null
+\end{wideslide}
+
+\begin{wideslide}[toc = From Solitaire to MC]{From Solitaire to Monte Carlo method}
+\null\vfill
+
+    \twocolumn
+    {
+      \begin{itemize}
+	\item Stanis{\l}aw Ulam was a Polish mathematician
+	\item He invented the Monte Carlo method while playing solitaire
+	\item The method was used in Los Alamos, performed by ENIAC computer
+      \end{itemize}  
+      
+      \includegraphics[width=\columnwidth]{figures/eniac1946.eps}
+    }
+    {
+      \includegraphics[width=\columnwidth]{figures/solitaire.eps}
+      \begin{itemize}
+	\item What is a probability of success in solitaire?
+	\begin{itemize}
+	  \item Too complex for an analytical calculations
+	  \item Lets try $N = 100$ times and count wins
+	  \item With $N \rightarrow \infty$ we are getting closer to correct result
+	\end{itemize}
+      \end{itemize}
+    }
+ 
+\vfill\null
+\end{wideslide}
+
+\begin{wideslide}[toc = Simple Monte Carlo, method=direct]{Simple Monte Carlo - coin flipping}
+\null\vfill
+
+  \begin{itemize}
+    \item What is the probability of getting head / tail when throwing a coin?
+  \end{itemize}
+  
+  \begin{minipage}{0.7\textwidth}
+  \begin{itemize}
+    \item One can use MC method to calculate this:
+    \begin{itemize}
+      \item get $N$ times a random number $x \in [0,1)$
+      \item check how many ($n$) times $x < 0.5$
+      \item $P = \frac{n}{N}$
+    \end{itemize}
+    \item One-line example in Python:
+  \end{itemize}
+  \end{minipage}\begin{minipage}{0.3\textwidth}
+		  \includegraphics[width=0.5\columnwidth]{figures/coin.eps}
+                \end{minipage}
+
+  {\small\color{pdcolor3}
+  \begin{verbatim}
+MC = lambda N: len(filter(lambda x: random.random() > 0.5, range(N))) / float(N)     
+  \end{verbatim}
+  }
+  \begin{minipage}{0.55\textwidth}
+  \begin{itemize}
+   \item If you do not like one-liners:
+  \end{itemize}
+  \vspace{-20pt}  
+  {\small\color{pdcolor3}
+  \begin{verbatim}
+def MonteCarlo(N):
+  n = 0
+  for _ in range(N):
+    if (random.random() > 0.5): n += 1
+  return float(n) / N   
+  \end{verbatim}
+  }
+  \end{minipage}\begin{minipage}{0.45\textwidth}
+		  \vspace{-10pt}
+		  \begin{itemize}
+		   \item Some results for MC(100):
+		   \item[]
+		   0.51, 0.48, 0.61, 0.46, 0.57, 0.46
+		   \item Some results for MC(100000):
+		   \item[]
+		   0.50139, 0.49798, 0.49933, 0.5005
+		  \end{itemize}
+                \end{minipage}
+
+\vfill\null
+\end{wideslide}
+
+\begin{slide}[toc=PRNG]{Pseudorandom number generator}
+\null\vfill
+
+  \begin{itemize}
+    \item PRNG is an algorithm for generating a sequence of ``random'' numbers
+    \item Example: middle-square method (used in ENIAC)
+    \begin{itemize}
+      \item take $n$-digit number as your seed
+      \item square it to get $2n$-digit number (add leading zeroes if necessary)
+      \item $n$ middle digits are the result and the seed for next number
+    \end{itemize}
+    \item Middle-square method for $n = 4$ and base seed = $1111$:
+  \end{itemize}
+  \vspace{-10pt}
+  \begin{eqnarray*}
+    1111^2 & = & {\color{pdcolor3}01}2343{\color{pdcolor3}21} \rightarrow 2343 \\
+    2343^2 & = & {\color{pdcolor3}05}4896{\color{pdcolor3}49} \rightarrow 4896 \\
+    & \vdots & \\
+    1111^2 & = & {\color{pdcolor3}01}2343{\color{pdcolor3}21} \rightarrow 2343 
+  \end{eqnarray*}
+    
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc=]{Pseudorandom number generator}
+\null\vfill
+
+  \begin{itemize}
+    \item Nowadays, more sophisticated PRNGs exist, but they also suffer on some common problems:
+    \begin{itemize}
+      \item periodicity / different periodicity for different base seed
+      \item nonuniformity of number distributions
+      \item correlation of successive numbers
+    \end{itemize}
+  \end{itemize}
+
+  \twocolumn
+  {
+    \includegraphics[width=\columnwidth]{figures/random2d.eps}
+  }
+  {
+    \includegraphics[width=\columnwidth]{figures/random3d.eps}
+  }
+  {\it\color{pdcolor3}Mathematics and Computers in Simulations 46 (1998) 485-505}
+\vfill\null
+\end{slide}
+
+\begin{slide}{MC integration}
+\null\vfill
+
+  Lets us do the following integration using MC method:
+  
+  $$\int_0^1 f(x)dx = \int_0^1 \left(\frac{1}{2}x\right) dx = \left.\frac{1}{2}\frac{x^2}{2}\right|_{0}^{1} = \frac{1}{4}$$
+
+  \twocolumn
+  {
+    
+  }
+  {
+    \input{figures/mcExample.tex}
+  }
+  
+\vfill\null
+\end{slide}
