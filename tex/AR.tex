@@ -1,0 +1,91 @@
+\begin{slide}[toc=Acceptance-rejection]{Acceptance-rejection method}
+\null\vfill
+
+  \twocolumn
+  {
+    \begin{itemize}
+      \item Lets consider
+      $$f(x) = A \cdot x^3 \cdot e^{-x^2}$$
+      with $x \in [0, 1]$, $A = \frac{2e}{e-2}$ 
+      \item CDF is given by
+      $$F(x) = \frac{N}{2}(x^2 - 1)e^{-x^2}$$
+    \end{itemize}
+  }
+  {
+    \input{figures/ar1.tex}
+  }
+  
+  \begin{itemize}
+    \item Since, we do not know $F^{-1}$ we have to find another way to generate $x$ from $f(x)$ distribution
+    \item We will use acceptance-rejection method (do you remember MC integration via hit-or-miss?)
+  \end{itemize}
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc=]{Acceptance-rejection method}
+\null\vfill
+
+  \twocolumn
+  {
+    \begin{itemize}
+      \item Evaluate $f_{max} \geq \mbox{max}(f)$
+      \item[] {\it\color{pdcolor3}Note: $f_{max} > \mbox{max}(f)$ will affect performance, but the result will be still correct}
+      \item Generate random $x$
+      \item Accept x with $P = \frac{f(x)}{f_{max}}$
+      \begin{itemize}
+	\item generate a random $u$ from $[0, f_{max}]$
+	\item accept if $u < f(x)$
+      \end{itemize}
+      \item The plot on the right shows the results for $N = 10^5$
+    \end{itemize}
+  }
+  {
+    \input{figures/ar2.tex}
+    \input{figures/ar3.tex}
+  }
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc=]{Acceptance-rejection method - optimization}
+\null\vfill
+
+  \twocolumn
+  {
+    \begin{itemize}
+      \item The area under the plot of $f(x)$ is $\sim 0.13$
+      \item The total area is $0.4$
+      \item Thus, only about $30\%$ of points gives contribution to the final distribution
+      \item One can find $g(x)$ for which CDF method is possible and which encapsulates $f(x)$ in given range and generate $x$ according to $g(x)$
+      \item For $g(x) = 0.4 x$ the total area is $0.2$, so we speed up twice
+    \end{itemize}
+  }
+  {
+    \input{figures/ar4.tex}
+    \input{figures/ar5.tex}
+  }
+
+\vfill\null
+\end{slide}
+
+
+\begin{slide}[toc=]{Acceptance-rejection method - optimization}
+\null\vfill
+
+  \begin{itemize}
+    \item Cumulative distribution function for $g(x) = 2x$
+    
+    $$G(x) = \int_0^x g(t)dt = x^2 \Rightarrow G^{-1}(x) = \sqrt{x}$$
+    
+    {\it\color{pdcolor3}Note: PDF must be normalized to 1 for CDF}
+    
+    \item Generate random number $u \in [0, 1]$
+    \item Calculate your $x = G^{-1}(u)$
+    \item Accept $x$ with probability $P = f(x) / g(x)$
+    \item[] {\it\color{pdcolor3}instead of using constant $f_{max}$ we are using $f_{max}(x) \equiv g(x)$}
+    
+  \end{itemize}
+
+\vfill\null
+\end{slide}

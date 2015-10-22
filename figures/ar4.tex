@@ -1,0 +1,27 @@
+\usetikzlibrary{calc}
+
+\pgfplotsset{every  tick/.style={pdcolor3,}, minor x tick num=1,}
+
+\begin{tikzpicture}
+
+  \begin{axis}[xlabel = {$x$}, ylabel = {$y$}, ylabel near ticks, domain=0:1, scale=0.5, axis lines = left, inner axis line style={>=latex}, ymin = 0, ymax = 0.45, xmin = 0, xmax = 1.1]
+    
+    \foreach \x in {1,...,200}
+    {
+      \pgfmathparse{rnd}
+      \pgfmathsetmacro{\a}{0.90*\pgfmathresult + 0.05}
+      \pgfmathparse{rnd}
+      \pgfmathsetmacro{\b}{0.34*\pgfmathresult + 0.04}
+      \pgfmathsetmacro{\c}{\b - \a*\a*\a*exp(-\a*\a)}
+      	  
+      \ifthenelse{\lengthtest{\c pt > 0.025 pt}}{\addplot[mark=*, mark size = 1pt, color=pdcolor6] coordinates {(\a, \b)};}{}
+      \ifthenelse{\lengthtest{\c pt < - 0.025 pt}}{\addplot[mark=*, mark size = 1pt, color=pdcolor7] coordinates {(\a, \b)};}{}
+    }
+
+    \addplot[mark=none, dashed, color=pdcolor3, thick] coordinates {(0,0.4) (1,0.4) (1,0)};
+
+    \addplot [thick, mark = none, color = pdcolor1] {x*x*x*exp(-x*x)};
+    
+  \end{axis}
+
+\end{tikzpicture}
