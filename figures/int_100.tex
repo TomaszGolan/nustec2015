@@ -1,0 +1,13 @@
+\usetikzlibrary{calc}
+
+\pgfplotsset{every  tick/.style={pdcolor3,}, minor x tick num=1,}
+
+\begin{tikzpicture}
+
+  \begin{axis}[xlabel = {Run number}, ylabel = {MC result}, ylabel near ticks, domain=0:1, scale=0.5, axis lines = left, inner axis line style={>=latex}, ymin = 0, ymax = 0.55, xmin = 0, xmax = 1010]
+        
+    \addplot table[x = x, y = y, col sep = space] {data/int_100.dat};
+    
+  \end{axis}
+
+\end{tikzpicture}

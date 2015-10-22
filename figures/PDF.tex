@@ -1,0 +1,20 @@
+\usetikzlibrary{calc}
+
+\pgfplotsset{every  tick/.style={pdcolor3,}, minor x tick num=1,}
+
+\begin{tikzpicture}
+
+  \begin{axis}[xlabel = {$x$}, ylabel = {$y = 3x^2$}, ylabel near ticks, domain=0:1, scale=0.5, axis lines = left, inner axis line style={>=latex}, ymin = 0, ymax = 3.25, xmin = 0, xmax = 1.1]
+    
+    \addplot[mark=none, color=pdcolor1, ultra thick] {3*x^2};
+    \addplot[mark=*, mark size = 2pt, color=pdcolor6] coordinates {(0.75, 1.6875)};
+
+    \addplot[mark=none, dashed, color=pdcolor3, thick] coordinates {(0, 1.6875) (0.75, 1.6875) (0.75, 0)};
+    
+    \node[right] at (axis cs:  0.75, 1.6875) {$(\frac{3}{4}, \frac{27}{16})$};
+    
+    %\addplot table[x = x, y = y, col sep = space] {data/forceDist.dat};
+    
+  \end{axis}
+
+\end{tikzpicture}

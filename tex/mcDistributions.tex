@@ -1,0 +1,160 @@
+\begin{slide}[toc=Random from PDF]{Random numbers from probability density function}
+\null\vfill
+
+  \twocolumn
+  {
+    \begin{itemize}
+      \item How to draw a random number from probability density function?
+      \item Lets consider $f(x) = 3x^2$
+      \item Which means that $x = 1$ should be drawn $2$ times more often than $x = \frac{\sqrt{2}}{2}$
+    \end{itemize}
+  }
+  {
+    \input{figures/PDF.tex}
+  }
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc=CDF]{Cumulative distribution function}
+\null\vfill
+
+  \begin{itemize}
+    
+    \item Cumulative distribution function of a random variable $X$:
+    
+    $$F(x) = P (X \leq x)$$
+    
+    \sep
+    {\it\color{pdcolor3} Note: $0 \leq F(x) \leq 1$ for all $x$}
+        
+    \item Discrete random variable $X$:
+    
+    $$F (x) = \sum\limits_{x_i \leq x} f (x_i)$$
+
+    where $f$ is probability density function
+    
+    \item Continuous random variable $X$:
+    
+    $$F (x) = \int\limits_{-\infty}^{x} f (t) dt$$ 
+        
+  \end{itemize}
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc=CDF discrete]{Cumulative distribution function - discrete example}
+\null\vfill
+
+  \begin{itemize}
+    
+    \item Probability density function $f(x) = 3x^2$
+    \item[] with discrete random variables $X$ is $\{\sqrt{\frac{1}{30}}, \sqrt{\frac{2}{30}}, \sqrt{\frac{3}{30}}, \sqrt{\frac{4}{30}},\}$
+    \item CDF is given by:
+    
+  \end{itemize}
+  
+  \twocolumn
+  {
+  $$F (x) = \begin{cases}
+	      \frac{1}{10}  & \mbox{if~~~} x \leq \sqrt{\frac{1}{30}} \\
+	      \frac{3}{10}  & \mbox{if~~~} x \leq \sqrt{\frac{2}{30}} \\
+	      \frac{6}{10}  & \mbox{if~~~} x \leq \sqrt{\frac{3}{30}} \\
+	      \frac{10}{10} & \mbox{if~~~} x \leq \sqrt{\frac{4}{30}} 
+	    \end{cases}
+  $$
+  }
+  {
+    \input{figures/discreteCDF.tex}
+  }
+  \vspace{-10pt}
+  \begin{itemize}
+  
+    \item With $P = 1$ the random number is less or equal to $\sqrt{\frac{4}{30}}$, with $P = 0.6$ the random number is less or equal $\sqrt{\frac{3}{30}}$ ...
+    
+  \end{itemize}
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc=]{Cumulative distribution function - discrete example}
+\null\vfill
+  
+ \begin{itemize}
+  \item To draw a random number from $X$ according to $f(x) = 3x^2$:
+  \begin{itemize}
+    \item draw a random number $u$ from $[0, 1]$
+    \item if $u \leq 0.1$: $x = \sqrt{\frac{1}{30}}$
+    \item else if $u \leq 0.3$: $x = \sqrt{\frac{2}{30}}$ ...
+  \end{itemize}
+  \item Results for $N = 10000$ drawing:
+ \end{itemize}
+
+ \begin{center}
+ \begin{tabular}{c|c|c|c}
+$x$ & $n$ & $n/N$ & $f(x)$ \\ \hline 
+$\sqrt{\frac{1}{30}}$ &  989  & 0.0989 & 0.1 \\
+$\sqrt{\frac{2}{30}}$ & 1959 & 0.1959 & 0.2 \\
+$\sqrt{\frac{3}{30}}$ & 2949 & 0.2949 & 0.3 \\
+$\sqrt{\frac{4}{30}}$ & 4103 & 0.4103 & 0.4 \\
+ \end{tabular}
+ \end{center}
+ 
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc=CDF continuous]{Cumulative distribution function - continuous example}
+\null\vfill
+
+  \begin{itemize}
+    
+    \item Probability density function $f(x) = 3x^2$
+    \item[] with continuous random variables $X$ range $[0, 1]$
+    \item CDF is given by:
+    
+  \end{itemize}
+  
+  \twocolumn
+  {
+    \begin{eqnarray*}
+      F (x) & = & \int\limits_0^x f(t) dt \\
+            & = & \int\limits_0^x 3t^2 dt \\
+            & = & \left.t^3\right|_0^x = x^3
+    \end{eqnarray*}
+  }
+  {
+    \input{figures/continuousCDF.tex}
+  }
+  
+  \begin{itemize}
+  
+    \item Blue area gives the probability that $x <= 0.75$
+    
+  \end{itemize}
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc=]{Cumulative distribution function - continuous example}
+\null\vfill
+
+ \begin{itemize}
+  \item To draw a random number from $X$ according to $f(x) = 3x^2$:
+  \begin{itemize}
+    \item draw a random number $u$ from $[0, 1]$
+    \item find $x$ for which $F (x) = u$, i.e. $x = F^{-1}(u)$
+    \item $x$ is your guy
+  \end{itemize}
+  \item Results for $N = 10000$ drawing:
+ \end{itemize}
+  \sep
+ \twocolumn
+ {
+  \input{figures/cCDFexample.tex}
+ }
+ {
+  \sep\sep\sep
+  Unfortunately, usually $F^{-1}$ is unknown, which makes this method pretty useless (at least directly).
+ }
+\vfill\null
+\end{slide}

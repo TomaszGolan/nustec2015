@@ -1,0 +1,15 @@
+\usetikzlibrary{calc}
+
+\pgfplotsset{every  tick/.style={pdcolor3,}, minor x tick num=1,}
+
+\begin{tikzpicture}
+
+  \begin{axis}[xlabel = {$x$}, ylabel = {$F(x)$}, ylabel near ticks, domain=0:1, scale=0.5, axis lines = left, inner axis line style={>=latex}, ymin = 0, ymax = 1.1, xmin = 0, xmax = 0.45]
+    
+    \addplot[mark=*, mark size = 2pt, color=pdcolor6, only marks] coordinates {(sqrt(1/30), 1/10) (sqrt(2/30), 3/10) (sqrt(3/30), 6/10) (sqrt(4/30), 1)};
+    
+    %\addplot table[x = x, y = y, col sep = space] {data/forceDist.dat};
+    
+  \end{axis}
+
+\end{tikzpicture}

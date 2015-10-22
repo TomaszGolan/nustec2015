@@ -1,0 +1,16 @@
+\usetikzlibrary{calc}
+
+\pgfplotsset{every  tick/.style={pdcolor3,}, minor x tick num=1,}
+
+\begin{tikzpicture}
+
+  \begin{axis}[set layers, xlabel = {$x$}, ylabel = {$F(x)$}, ylabel near ticks, domain=0:1, scale=0.5, axis lines = left, inner axis line style={>=latex}, ymin = 0, ymax = 1.1, xmin = 0, xmax = 1.1]
+    
+    \addplot[mark=none, color = pdcolor6!0, fill = pdcolor7, fill opacity = 0.5, domain = 0:0.75, on layer=axis background] {x*x*x} \closedcycle;
+
+    \addplot[mark=none, color=pdcolor6, ultra thick] {x*x*x};
+
+
+  \end{axis}
+
+\end{tikzpicture}
