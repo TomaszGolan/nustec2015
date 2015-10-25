@@ -1,17 +1,17 @@
-\section{Quasi-elastic scattering}
+\section[toc=Quasi-elastic scattering]{Quasi-elastic scattering \\ \small{Building a generator step by step}}
 
 \begin{wideslide}[toc=QEL on free N]{Quasi-elastic scattering on a free nucleon}
 \null\vfill
 
   \myBox{Llewellyn-Smith formula}
   
-  $$\frac{d\sigma}{dQ^2} {{\nu_l + n \rightarrow l^- + p}\choose{\bar\nu_l + p \rightarrow l^+ + n}} = \frac{M^2G_F^2\cos\theta_C}{8\pi E_\nu^2}\left[A(Q^2) \mp B(Q^2)\frac{(s - u)}{M^2} + C(Q^2)\frac{(s - u)^2}{M^4}\right]$$
+  $$\frac{d\sigma}{d|q^2|} {{\nu_l + n \rightarrow l^- + p}\choose{\bar\nu_l + p \rightarrow l^+ + n}} = \frac{M^2G_F^2\cos\theta_C}{8\pi E_\nu^2}\left[A(q^2) \mp B(q^2)\frac{(s - u)}{M^2} + C(q^2)\frac{(s - u)^2}{M^4}\right]$$
   
   \myBox{Notation}
   
   \begin{itemize}
     \item Constants: $M$ - nucleon mass, $G_F$ - Fermi constant, $\theta_C$ - Cabibbo angle,
-    \item $Q^2 = -q^2 = - (k - k')^2 = - (p' - p)^2$ - four-momentum squared, where $k$, $k'$, $p$, $p'$ are four-momenta of initial and final lepton, initial and final nucleon
+    \item $q^2 = (k - k')^2 = (p' - p)^2$ - four-momentum squared, where $k$, $k'$, $p$, $p'$ are four-momenta of initial and final lepton, initial and final nucleon
     \item $E_\nu$ - neutrino energy
     \item $s = (k + k')^2$ and $u = (k - p')^2$ - Mandelstam variables
   \end{itemize}
@@ -25,20 +25,234 @@
 
   \myBox{Llewellyn-Smith formula}
   
-  $$\frac{d\sigma}{dQ^2} {{\nu_l + n \rightarrow l^- + p}\choose{\bar\nu_l + p \rightarrow l^+ + n}} = \frac{M^2G_F^2\cos\theta_C}{8\pi E_\nu^2}\left[A(Q^2) \mp B(Q^2)\frac{(s - u)}{M^2} + C(Q^2)\frac{(s - u)^2}{M^4}\right]$$
+  $$\frac{d\sigma}{d|q^2|} {{\nu_l + n \rightarrow l^- + p}\choose{\bar\nu_l + p \rightarrow l^+ + n}} = \frac{M^2G_F^2\cos\theta_C}{8\pi E_\nu^2}\left[A(q^2) \mp B(q^2)\frac{(s - u)}{M^2} + C(q^2)\frac{(s - u)^2}{M^4}\right]$$
   
-  \myBox{Lets integrate it}
+  \myBox{General idea}
   
   \begin{itemize}
-    \item Having $k$ and $p$, generate $k'$ and $p'$ (usually in center of mass system) from whole available phase space
-    \item Calculate $Q^2$ and $s - u$ based on kinematics
+    \item Having $k$ and $p$, generate $k'$ and $p'$
+    \item Calculate $q^2$ and $(s - u) = 4ME_\nu + q^2 -m^2$ based on generated kinematics
     \item Calculate cross section
     \item Repeat $N$ times and the result is given by: 
     
-    \vspace{-32pt}$$\hspace*{150pt}\sigma_{total} = \frac{Q^2_{max}}{N} \sum\limits_{i = 1}^N \sigma (Q_i^2)$$
+    $$\sigma_{total} \sim \frac{1}{N} \sum\limits_{i = 1}^N \sigma (q_i^2)$$
     
   \end{itemize}
 
-  
 \vfill\null
 \end{wideslide}
+
+\begin{slide}{Generating kinematics}
+\null\vfill
+
+  \input{figures/boost.tex}
+
+  \begin{itemize}
+    \item Lets consider kinematics in center-of-mass system
+    \item Mandelstam $s$ is invariant under Lorentz transformation
+   
+    $$s = (k + p)^2 = (E + E_p)^2 - (\vec k + \vec p)^2 = (E^* + E_p^*)^2$$
+   
+    \item $\sqrt{s}$ is the total energy in CMS
+
+    $$\sqrt{s} = E^* + E_p^* = \sqrt{p^{*2} + m^2} + \sqrt{p^{*^2} + M^2}$$
+    
+    \item We will use it to calculate $p*$
+   
+  \end{itemize}
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc=]{Generating kinematics}
+\null\vfill
+  
+  \begin{itemize}
+   \item Lets do some simple algebra:
+
+  \vspace{-10pt}
+  \begin{eqnarray*}
+    \sqrt{s} & = & E^* + E_p^* = \sqrt{p^{*2} + m^2} + \sqrt{p^{*^2} + M^2} \\
+    \sqrt{s} & = & E^* + \sqrt{E^{*2} - m^2 + M^2} \\
+    s & = & E^{*2} + E^{*2} - m^2 + M^2 + 2E^*E_p^* \\
+    s & = & 2E^*(E^* + E_p^*) - m^2 + M^2 \\
+    s & = & 2E^*\sqrt{s} - m^2 + M^2 \\
+    E^* & = & \frac{s + m^2 - M^2}{2\sqrt{s}} \\
+    E_p^* & =&  \frac{s + M^2 - m^2}{2\sqrt{s}} \mbox{ (analogously)}
+  \end{eqnarray*}
+  
+  \item After more algebra we get:
+  
+  \vspace{-10pt}
+  $$p^* = \sqrt{E^{*2} - m^2} = \frac{[s - (m - M)^2]\cdot[s - (m + M)^2]}{2\sqrt{s}}$$
+
+  \end{itemize}
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc=]{Generating kinematics}
+\null\vfill
+
+  \twocolumn
+  {
+    \sep
+    \begin{itemize}
+      \item We use spherical coordinate system to determine momentum direction in CMS:
+    \end{itemize}
+    $$\vec p^* = p^* \cdot (\sin\theta\cos\phi,~~\sin\theta\sin\phi,~~\cos\theta)$$
+  }
+  {
+    \centering\input{figures/spherical.tex}
+  }  
+
+  \begin{itemize}
+    \item Generate random angles:  
+    \item[]
+    
+    \begin{tabular}{rclll}
+           $\phi$ & $ = $ &  $2\pi\cdot\mbox{random}[0,1]$ & $\Rightarrow$ & $\sin\phi,~~\cos\phi$ \\ \\
+     $\cos\theta$ & $ = $ & $2\cdot\mbox{random}[0,1] - 1$ & $\Rightarrow$ & $\sin\theta, ~~\cos\theta$  
+    \end{tabular}
+    
+    \item[]
+    
+    \item All we need to do is to go back to LAB frame
+
+  \end{itemize}
+
+\vfill\null
+\end{slide}
+
+\begin{slide}{LAB $\leftrightarrows$ CMS}
+\null\vfill
+
+  \begin{itemize}
+    
+    \item Lorentz boost in direction $\hat n = \frac{\vec v}{v}$ of $(t,\vec r)$:
+    
+    \begin{eqnarray*}
+      t' & = & \gamma \left(t - v \hat n\cdot\vec r\right) \\
+      \vec r' & = & \vec r + (\gamma - 1)(\hat n\cdot\vec r)\hat n - \gamma t v \hat n
+    \end{eqnarray*}
+    
+  \end{itemize}
+  
+  \sep
+  
+  \twocolumn
+  {
+    \begin{itemize}
+      
+      \item In our case
+  
+      $$\vec v = \frac{\vec p_\nu + \vec p_N}{E_\nu + E_N}$$
+    
+      \item Boost from LAB to CMS in $\vec v$ direction
+    
+      \item Boost from CMS to LAB in $-\vec v$ direction
+    
+    \end{itemize}
+  }
+  {
+    \input{figures/boost2.tex}
+  }
+  
+\vfill\null
+\end{slide}
+
+\begin{wideslide}[toc=Cross section]{Calculating cross section}
+\null\vfill
+
+  \myBox{Llewellyn-Smith formula}
+  
+  $$\frac{d\sigma}{d|q^2|} {{\nu_l + n \rightarrow l^- + p}\choose{\bar\nu_l + p \rightarrow l^+ + n}} = \frac{M^2G_F^2\cos\theta_C}{8\pi E_\nu^2}\left[A(q^2) \mp B(q^2)\frac{(s - u)}{M^2} + C(q^2)\frac{(s - u)^2}{M^4}\right]$$
+  
+  \myBox{Calculation}
+
+  \begin{itemize}
+    \item Once we have $p'$ and $k'$ in LAB frame we can calculate $q^2$ and $(s - u)$
+    \item Once we have $q^2$ we can calculate $A(q^2)$, $B(q^2)$, $C(q^2)$
+    \item We have everything to calculate cross section
+    \item Do we? Or maybe we are still missing something?
+  \end{itemize}
+
+\vfill\null
+\end{wideslide}
+
+\begin{wideslide}[toc=]{Calculating cross section}
+\null\vfill
+
+  \myBox{Llewellyn-Smith formula}
+  
+  $$\frac{d\sigma}{d|q^2|} {{\nu_l + n \rightarrow l^- + p}\choose{\bar\nu_l + p \rightarrow l^+ + n}} = \frac{M^2G_F^2\cos\theta_C}{8\pi E_\nu^2}\left[A(q^2) \mp B(q^2)\frac{(s - u)}{M^2} + C(q^2)\frac{(s - u)^2}{M^4}\right]$$
+  
+  \myBox{Calculation}
+
+  \begin{itemize}
+    \item Once we have $p'$ and $k'$ in LAB frame we can calculate $q^2$ and $(s - u)$
+    \item Once we have $q^2$ we can calculate $A(q^2)$, $B(q^2)$, $C(q^2)$
+    \item We have everything to calculate cross section
+    \item Do we? Or maybe we are still missing something?
+  \end{itemize}
+  \sep
+  \centering{\color{pdcolor6} We change the variable we integrate over! We need Jacobian!}
+
+\vfill\null
+\end{wideslide}
+
+\begin{wideslide}[toc=]{Calculating cross section}
+\null\vfill
+
+  \begin{itemize}
+    
+    \item Express $q^2$ in terms of angle:
+    
+    $$q^2 = (k - k')^2 = m^2 - 2kk' = m^2 - 2EE' + 2|\vec k||\vec k'|\cos\theta $$
+    
+    \item Thus, the Jacobian is given by:
+    
+    $$dq^2 = 2|\vec k||\vec k'|d(\cos\theta)$$
+    
+    {\it\color{pdcolor3}Note: must be calculated in CMS}
+    
+    \item Finally, our total cross section is given by:
+    
+    \begin{eqnarray*}
+      \sigma      & = & \int\limits_{-1}^{1} \frac{M^2G_F^2\cos\theta_C}{8\pi E_\nu^2}\left[A(q^2) \mp B(q^2)\frac{(s - u)}{M^2} + C(q^2)\frac{(s - u)^2}{M^4}\right]2|\vec k||\vec k'|d\cos\theta \\
+      \sigma_{MC} & = & \frac{2}{N}\sum\limits_{i = 1}^N \frac{M^2G_F^2\cos\theta_C}{8\pi E_\nu^2}\left[A(q^2) \mp B(q^2)\frac{(s - u)}{M^2} + C(q^2)\frac{(s - u)^2}{M^4}\right]2|\vec k||\vec k'|
+    \end{eqnarray*}
+
+  \end{itemize}
+
+\vfill\null
+\end{wideslide}
+
+\begin{slide}{Optimization}
+\null\vfill
+
+  \twocolumn
+  {
+    \sep
+    \begin{itemize}
+      \item We want to avoid any sharp peaks
+      \item They affect our efficiency
+      \item They may also affect the accuracy
+      \item Lets change variable once again:
+      
+      $$\cos\theta = 1 - 2u^2$$
+     
+      where $u\in[0,1]$
+      
+      \item Note extra Jacobian and new integration limits
+      
+    \end{itemize}
+  }
+  {
+    \input{figures/qelcos.tex}
+    \vspace{-10pt}
+    \input{figures/qelcos2.tex}
+  }
+  
+\vfill\null
+\end{slide}

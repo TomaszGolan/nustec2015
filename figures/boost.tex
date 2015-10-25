@@ -1,0 +1,27 @@
+\twocolumn
+{
+\centering
+\begin{tikzpicture}
+
+  \draw [notFilled=pdcolor3, thin] (-0.5, -0.5) -- (-0.5, 1.5) -- node[below, yshift = -0.25 cm] {\color{pdcolor1}LAB} (3.5, 1.5) -- (3.5, -0.5) -- (-0.5, -0.5);
+
+  \draw [filled = pdcolor1] (0, 0) circle (0.25);
+  \draw [filled = pdcolor6] (3, 0) circle (0.25);
+  \draw [line, ultra thick, ->] (0.25, 0) -- node[above] {$\vec p_\nu$} (1.5, 0);
+  \draw [line, ultra thick, ->, color = pdcolor6] (2.75, 0.1) -- node[above, xshift = 0.25cm] {$\vec p_N$} (2.0, 0.5);
+
+\end{tikzpicture}
+}
+{
+\centering
+\begin{tikzpicture}
+
+  \draw [notFilled=pdcolor3, thin] (-0.5, -0.5) -- (-0.5, 1.5) -- node[below, yshift = -0.25 cm] {\color{pdcolor1}CMS} (3.5, 1.5) -- (3.5, -0.5) -- (-0.5, -0.5);
+
+  \draw [filled = pdcolor1] (0, 0) circle (0.25);
+  \draw [filled = pdcolor6] (3, 0) circle (0.25);
+  \draw [line, ultra thick, ->] (0.25, 0) -- node[above] {$\vec p*$} (1.25, 0);
+  \draw [line, ultra thick, ->, color = pdcolor6] (2.75, 0) -- node[above] {$\vec p*$} (1.75, 0);
+
+\end{tikzpicture}
+}
