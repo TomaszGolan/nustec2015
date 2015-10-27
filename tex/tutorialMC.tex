@@ -1,0 +1,118 @@
+\section{Tutorial MC}
+
+\begin{slide}[method=direct]{PRNG}
+\null\vfill
+
+  \begin{itemize}
+   \item You can use whatever random number generator you want
+   \item If you are using C++ you may consider using PRNG class, which wraps up mersenne twister engine \href{https://raw.githubusercontent.com/TomaszGolan/simpleClassifiers/master/include/PRNG.h}{[link to PRNG.h]}
+   \item Usage:
+   
+  \end{itemize}
+
+  \begin{verbatim}
+const PRNG random (min, max);
+random.generate00(); // returns RN from (min, max)
+random.generate01(); // returns RN from (min, max]
+random.generate10(); // returns RN from [min, max)
+random.generate11(); // returns RN from [min, max]
+   \end{verbatim}
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc = Task 1]{Task 1: evaluate $\pi$}
+\null\vfill
+
+  \twocolumn
+  {
+    \sep\sep
+    Evaluate $\pi$ using MC method
+    \begin{itemize}
+      \item get $N$ random points from a square
+      \item count how many points are inside a circle
+      \item calculate $\pi$
+    \item check how the results depends on $N$
+    \end{itemize}
+  }
+  {
+    \input{figures/tutorialMC1.tex}
+  }
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc = Task 2]{Task 2: integration}
+\null\vfill
+
+  \twocolumn
+  {
+      Lets consider the following function:
+  
+      $$F(Q^2) = \frac{1}{(1 + Q^2)^2}$$
+      
+    \begin{itemize}
+
+      \item[a)] Integrate this function over $Q^2$ using hit-or-miss method
+      
+      \item[b)] Integrate this function over $x = \mbox{log}_{10}(Q^2)$ using the same method
+      
+      \item[c)] Compare efficiency
+      
+      \item[d)] Integrate this function using crude method
+      
+    \end{itemize}    
+  }
+  {
+    \input{figures/dipole.tex}
+    \vspace{-10pt}
+    \input{figures/dipole2.tex}    
+  }
+
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc = Task 3]{Task 3: generating number from distribution}
+\null\vfill
+
+  \twocolumn
+  {
+    \sep\sep
+  
+      Write a program to generate random numbers from $[0,1]$ according to the following distribution:
+      
+      $$f(x) = x^3$$      
+  }
+  {
+    \input{figures/parabola.tex}
+  }
+  
+  \begin{itemize}
+      \item[a)] using cumulative distribution function
+      
+      \item[b)] using acceptance-rejection method (consider substitution to get better performance)
+  \end{itemize}
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc = Task 4*]{Task 4*: neutrino-electron scattering}
+\null\vfill
+
+  \begin{itemize}
+   \item For $E_\nu >> m_e$, the cross section for $\nu_\mu-e$ scattering can be approximated by:
+   
+   $$\frac{d\sigma}{dy} = \frac{G_F^2 s}{\pi}\left[A^2 + B^2\cdot(1 - y)^2\right]$$
+   
+   where $G_F$ - Fermi weak coupling constant, $s$ - Mandelstam variable, $y \equiv \frac{T_e}{E_\nu}$ with $T_e$ - electron kinetic energy, $A = \frac{1}{2} - \sin^2\theta_W$, $B = \sin^2\theta_W$, $\theta_W$ - Weinberg angle
+   
+   \item[a)] Write a program to calculate total cross section for given neutrino energy
+   \item[b)] Using results from a), generate $\frac{d\sigma}{dT_e}$ distribution
+   \item[c)] Using results from a), generate $\frac{d\sigma}{d\cos\theta}$ distribution, hint:  
+  \end{itemize}
+
+   $$T_e = \frac{2m_eE_\nu^2\cos^2\theta}{(m_e + E_\nu)^2 - E_\nu^2\cos^2\theta} \approx 2m_e \frac{\cos^2\theta}{1 - \cos^2\theta}$$
+
+\vfill\null
+\end{slide}

@@ -216,19 +216,20 @@
     
     {\it\color{pdcolor3}Note: must be calculated in CMS}
     
-    \item Finally, our total cross section is given by:
+    \item Total cross section is given by:
     
+    {\small
     \begin{eqnarray*}
       \sigma      & = & \int\limits_{-1}^{1} \frac{M^2G_F^2\cos\theta_C}{8\pi E_\nu^2}\left[A(q^2) \mp B(q^2)\frac{(s - u)}{M^2} + C(q^2)\frac{(s - u)^2}{M^4}\right]2|\vec k||\vec k'|d\cos\theta \\
-      \sigma_{MC} & = & \frac{2}{N}\sum\limits_{i = 1}^N \frac{M^2G_F^2\cos\theta_C}{8\pi E_\nu^2}\left[A(q^2) \mp B(q^2)\frac{(s - u)}{M^2} + C(q^2)\frac{(s - u)^2}{M^4}\right]2|\vec k||\vec k'|
+      \sigma_{MC} & = & \frac{2}{N}\sum\limits_{i = 1}^N \frac{M^2G_F^2\cos\theta_C}{8\pi E_\nu^2}\left[A(q_i^2) \mp B(q_i^2)\frac{(s_i - u_i)}{M^2} + C(q_i^2)\frac{(s_i - u_i)^2}{M^4}\right]2|\vec k_i||\vec k'_i|
     \end{eqnarray*}
-
+    }
   \end{itemize}
 
 \vfill\null
 \end{wideslide}
 
-\begin{slide}{Optimization}
+\begin{slide}[toc=]{Calculating cross section}
 \null\vfill
 
   \twocolumn
@@ -236,17 +237,18 @@
     \sep
     \begin{itemize}
       \item We want to avoid any sharp peaks
-      \item They affect our efficiency
-      \item They may also affect the accuracy
+      \item They affect our efficiency and accuracy
       \item Lets change variable once again:
       
-      $$\cos\theta = 1 - 2u^2$$
+      $$\cos\theta = 1 - 2x^2$$
      
-      where $u\in[0,1]$
+      where $x\in[0,1]$
       
       \item Note extra Jacobian and new integration limits
       
     \end{itemize}
+    
+    \vspace{-20pt}$$\hspace*{-20pt}2\int\limits_{-1}^1 d(\cos\theta) \rightarrow \int\limits_1^0 dx (-4x) \rightarrow \int\limits_0^1 4xdx$$
   }
   {
     \input{figures/qelcos.tex}
@@ -254,5 +256,90 @@
     \input{figures/qelcos2.tex}
   }
   
+\vfill\null
+\end{slide}
+
+\begin{wideslide}[toc=]{Calculating cross section}
+\null\vfill
+
+  \begin{itemize}
+    
+    \item Finally, the cross section is given by:
+    
+    {\small
+    \begin{eqnarray*}
+      \sigma      & = & \int\limits_{0}^{1} \frac{M^2G_F^2\cos\theta_C}{8\pi E_\nu^2}\left[A(q^2) \mp B(q^2)\frac{(s - u)}{M^2} + C(q^2)\frac{(s - u)^2}{M^4}\right]2|\vec k||\vec k'|4xdx \\
+      \sigma_{MC} & = & \frac{1}{N}\sum\limits_{i = 1}^N \frac{M^2G_F^2\cos\theta_C}{8\pi E_\nu^2}\left[A(q_i^2) \mp B(q_i^2)\frac{(s_i - u_i)}{M^2} + C(q_i^2)\frac{(s_i - u_i)^2}{M^4}\right]2|\vec k_i||\vec k'_i|4x
+    \end{eqnarray*}
+    }
+    
+    \item In conclusion: do some kinematics and some boosts between CMS and LAB, change integration variable several times... and you are ready to calculate total cross section
+    
+    \item Now we need to generate some events. We want them to be distributed according to out cross section formula.
+      
+  \end{itemize}
+
+\vfill\null
+\end{wideslide}
+
+\begin{slide}{Generating events}
+\null\vfill
+
+  \twocolumn
+  {
+    \begin{itemize}
+      \item Generate $x \in [0:1]$
+      \item Do kinematics
+    \end{itemize}
+      \begin{eqnarray*}
+	x & \rightarrow & \cos\theta \\
+	\cos\theta & \rightarrow & k'^*, p'^* \\
+	k'^*, p'^* & \rightarrow & k', p' \\
+	& \vdots &
+      \end{eqnarray*}
+    \begin{itemize}
+      \item Calculate cross section $\sigma$
+    \end{itemize}
+  }
+  {
+    \sep\sep\sep
+    \input{figures/qelcos3.tex}
+  }
+  
+  \begin{itemize}
+  
+    \item Accept an event with the probability given by
+    
+    $$P = \frac{\sigma}{\sigma_{max}}$$
+    \vspace{-15pt}
+    \item And you almost have you MC neutrino-event generator, just a few more steps...
+  \end{itemize}
+
+\vfill\null
+\end{slide}
+
+\begin{slide}{A few more steps}
+\null\vfill
+
+  \begin{itemize}
+    \item add other dynamics: resonance pion production, deep inelastic scattering...
+    \item add support for nucleus as a target 
+    \item if you have nucleus add some two-body current interactions
+    \item if you have nucleus add some nuclear effects: Pauli blocking, final state interactions, formation zone...
+  \end{itemize}
+  
+  \twocolumn
+  {
+    \begin{itemize}
+      \item add support for neutrino beam
+      \item add support for detector geometry
+      \item add some interface to set up simulations parameters and saving the output
+      \item and your MC is done!
+    \end{itemize}
+  }
+  {
+    \includegraphics[width=\columnwidth]{figures/kociol.eps}
+  }
+
 \vfill\null
 \end{slide}
