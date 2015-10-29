@@ -64,57 +64,171 @@
 \vfill\null
 \end{wideslide}
 
-\begin{wideslide}[toc = Simple Monte Carlo, method=direct]{Simple Monte Carlo - coin flipping}
+\begin{slide}{Newton-Pepys problem}
+\null\vfill
+
+  \twocolumn
+  {
+    {\it
+    Which of the following three propositions has the greatest chance of success?
+    
+    \begin{itemize}
+      \item[A] Six fair dice are tossed independently and at least one “6” appears.
+      \item[B] Twelve fair dice are tossed independently and at least two “6”s appear.
+      \item[C] Eighteen fair dice are tossed independently and at least three “6”s appear.
+    \end{itemize}
+    }
+  }
+  {
+    \sep\sep\sep\sep
+    \centering\scalebox{0.15}{\input{figures/dice.tex}}
+  }
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc=]{Newton-Pepys problem: analytical attempt}
 \null\vfill
 
   \begin{itemize}
-    \item What is the probability of getting head / tail when throwing a coin?
-  \end{itemize}
-  
-  \begin{minipage}{0.7\textwidth}
-  \begin{itemize}
-    \item One can use MC method to calculate this:
-    \begin{itemize}
-      \item get $N$ times a random number $x \in [0,1)$
-      \item check how many ($n$) times $x < 0.5$
-      \item $P = \frac{n}{N}$
-    \end{itemize}
-    \item One-line example in Python:
-  \end{itemize}
-  \end{minipage}\begin{minipage}{0.3\textwidth}
-		  \includegraphics[width=0.5\columnwidth]{figures/coin.eps}
-                \end{minipage}
+    \item First, lets go back to high school and calculate this analytically
+    \item Let $p = \frac{1}{6}$ be the probability of rolling $6$
+    \item The probability of not rolling $6$ is $(1 - p)$
+    
+    \item[A] six attempts, at least one six
 
-  {\small\color{pdcolor3}
-  \begin{verbatim}
-MC = lambda N: len(filter(lambda x: random.random() < 0.5, range(N))) / float(N)     
-  \end{verbatim}
-  }
-  \begin{minipage}{0.55\textwidth}
-  \begin{itemize}
-   \item If you do not like one-liners:
+    $$P_A = 1 - (1 - p)^6 \approx 0.6651$$
+
+    \vspace{-5pt}
+    \item[B] twelve attempts, at least two sixes
+    
+    $$P_B = 1 - (1 - p)^{12} - {12 \choose 1}p(1 - p)^{11} \approx 0.6187$$
+
+    \vspace{-5pt}
+    \item[C] eighteen attempts, at least three sixes
+    
+    $$P_C = 1 - (1 - p)^{18} - {18 \choose 1}p(1 - p)^{17} - {18 \choose 2}p^2(1 - p)^{16} \approx 0.5973$$
+  
   \end{itemize}
-  \vspace{-20pt}  
-  {\small\color{pdcolor3}
-  \begin{verbatim}
-def MonteCarlo(N):
-  n = 0
-  for _ in range(N):
-    if (random.random() < 0.5): n += 1
-  return float(n) / N   
-  \end{verbatim}
-  }
-  \end{minipage}\begin{minipage}{0.45\textwidth}
-		  \vspace{-10pt}
-		  \begin{itemize}
-		   \item Some results for MC(100):
-		   \item[]
-		   0.51, 0.48, 0.61, 0.46, 0.57, 0.46
-		   \item Some results for MC(100000):
-		   \item[]
-		   0.50139, 0.49798, 0.49933, 0.5005
-		  \end{itemize}
-                \end{minipage}
 
 \vfill\null
+\end{slide}
+
+\begin{wideslide}[method=direct,toc=]{Newton-Pepys problem: MC attempt}
+\null\vfill
+
+  \begin{minipage}{0.45\textwidth}
+    \begin{itemize}
+     \item MC attempt is just ``performing the experiment'', so we will be rolling dices
+     \item Roll $6n$ times and check if number of sixes is greater or equal $n$
+     \item Repeat $N$ times and your probability is given by:
+     
+     $$P = \frac{\mbox{number of successes}}{N}$$
+    \end{itemize}
+  \end{minipage}\hspace{0.05\textwidth}\begin{minipage}{0.5\textwidth}
+{\small
+\begin{verbatim}
+def throw (nSixes):
+  n = 0
+  for _ in range (6 * nSixes):
+    if random.randint (1, 6) == 6: n += 1
+  return n >= nSixes
+  
+def MC (nSixes, nAttempts):
+  n = 0
+  for _ in range (nAttempts):
+    n += throw (nSixes)
+  return float (n) / nAttempts
+
+if __name__ == "__main__":
+  for i in range (1, 4):
+    print MC (i, 1000)
+\end{verbatim}
+}
+  \end{minipage}
+  
+\vfill\null
 \end{wideslide}
+
+\begin{slide}[toc=]{Newton-Pepys problem: summary}
+\null\vfill
+
+  \begin{itemize}
+    \item Your MC result depends on $N$
+    \item Results for $N = 100$:
+    
+    \begin{eqnarray*}
+      P_A & = & 0.71, 0.68, 0.76, 0.65, 0.68 \hspace{20pt}{\color{pdcolor3}P_A^{true} = 0.6651} \\
+      P_B & = & 0.70, 0.56, 0.60, 0.63, 0.69 \hspace{20pt}{\color{pdcolor3}P_B^{true} = 0.6187}\\
+      P_C & = & 0.62, 0.62, 0.53, 0.57, 0.62 \hspace{20pt}{\color{pdcolor3}P_C^{true} = 0.5973}
+    \end{eqnarray*}
+    
+    \item Results for $N = 10^6$:
+    
+    \begin{eqnarray*}
+      P_A & = & 0.6655, 0.6648, 0.6653, 0.6662, 0.6653 \\
+      P_B & = & 0.6188, 0.6191, 0.6191, 0.6190, 0.6182 \\
+      P_C & = & 0.5975, 0.5979, 0.5972, 0.5978, 0.5973
+    \end{eqnarray*}
+    
+    \item Your MC results also depends on the way how random numbers were generated
+    
+  \end{itemize}
+
+\vfill\null
+\end{slide}
+
+%\begin{wideslide}[toc = Simple Monte Carlo, method=direct]{Simple Monte Carlo - coin flipping}
+%\null\vfill
+%
+%  \begin{itemize}
+%    \item What is the probability of getting head / tail when throwing a coin?
+%  \end{itemize}
+%  
+%  \begin{minipage}{0.7\textwidth}
+%  \begin{itemize}
+%    \item One can use MC method to calculate this:
+%    \begin{itemize}
+%      \item get $N$ times a random number $x \in \{0,1\}$
+%      \item check how many ($n$) times $x = 1$
+%      \item $P = \frac{n}{N}$
+%    \end{itemize}
+%    \item One-line example in Python:
+%  \end{itemize}
+%  \end{minipage}\begin{minipage}{0.3\textwidth}
+%		  \includegraphics[width=0.5\columnwidth]{figures/coin.eps}
+%                \end{minipage}
+%
+%  {\small\color{pdcolor3}
+%  \begin{verbatim}
+%MC = lambda N: len(filter(lambda x: random.randint(0,1), range(N))) / float(N)     
+%  \end{verbatim}
+%  }
+%  \begin{minipage}{0.55\textwidth}
+%  \begin{itemize}
+%   \item If you do not like one-liners:
+%  \end{itemize}
+%  \vspace{-20pt}  
+%  {\small\color{pdcolor3}
+%  \begin{verbatim}
+%def MonteCarlo(N):
+%  n = 0
+%  for _ in range(N):
+%    if random.randint(0,1): n += 1
+%  return float(n) / N   
+%  \end{verbatim}
+%  }
+%  \end{minipage}\begin{minipage}{0.45\textwidth}
+%		  \vspace{-10pt}
+%		  \begin{itemize}
+%		   \item Some results for MC(100):
+%		   \item[]
+%		   0.51, 0.48, 0.61, 0.46, 0.57, 0.46
+%		   \item Some results for MC(100000):
+%		   \item[]
+%		   0.50139, 0.49798, 0.49933, 0.5005
+%		  \end{itemize}
+%                \end{minipage}
+%
+%\vfill\null
+%\end{wideslide}
