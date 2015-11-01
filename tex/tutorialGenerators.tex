@@ -18,11 +18,210 @@
      \item cross section per channel (sometimes as a function of energy - GENIE, sometimes integrated over flux - NuWro)
      \item ROOT file with TTree of events
     \end{itemize}
+        
+  \end{itemize}
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc=]{Introduction}
+\null\vfill
+
+  \begin{itemize}
+  
+    \item During tutorial we are going to work with GENIE's gst file (as it requires only ROOT)
     
-    \item During tutorial we are going to work with GENIE's gst files (as they required only ROOT)
+    \item You can find it here: \href{http://home.fnal.gov/~goran/NUSTEC_tutorial/nustec_sample.gst.root}{[gst file]}
     
-    \item You can find them here: \href{http://home.fnal.gov/~goran/NUSTEC_tutorial/}{[gst files]}
+    \item If you are interested in more technical details on running generators visit the web page of NuSTEC school in Liverpool:
     
+  \end{itemize}
+  
+  \sep
+  
+  \centering\href{http://school.genie-mc.org/}{NuSTEC Neutrino Generator School}
+
+\vfill\null
+\end{slide}
+
+\begin{slide}{gst files}
+\null\vfill
+
+  \begin{itemize}
+    \item The 'gst' is a GENIE summary ntuple format
+    \item Selected branches:
+    
+    \begin{itemize}
+      \item[\bf iev] number of events
+      \item[\bf Q2] momentum transfer squared
+      \item[\bf W] invariant mass
+      \item[\bf nf] number of final state particles in hadronic system
+      \item[\bf nfpip] number of final state $\pi^+$
+      \item[\bf Ef(i)] energy of $i$-th particle in hadronic system
+    \end{itemize}
+    
+    \item You can find all of them in GENIE manual (p. 112): \href{http://arxiv.org/pdf/1510.05494v1}{[GENIE manual]}
+    
+  \end{itemize}
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[method=direct]{Interactive ROOT}
+\null\vfill
+
+\begin{Verbatim}[commandchars=\\\{\}] 
+\color{pdcolor3}\it # load ROOT file
+root [0] TFile *myFile = new TFile ("file.gst.root")
+
+\color{pdcolor3}\it # load TTree
+root [1] TTree *myTree = myFile->Get("gst")
+
+\color{pdcolor3}\it # lepton energy distribution
+root [2] myTree->Draw("El")
+
+\color{pdcolor3}\it # lepton energy distribution for events with 1 hadron in the final state
+root [3] myTree->Draw("El", "nf == 1")
+
+\color{pdcolor3}\it # use TBrowser if you prefer mouse over keyboard
+root [4] TBrowser t
+\end{Verbatim}
+
+\vfill\null
+\end{slide}
+
+\begin{wideslide}[method=direct]{Script example}
+\null\vfill
+ 
+\begin{Verbatim}[commandchars=\\\{\}] 
+void analyzeGST (const char *inputFile)
+\{
+  TFile *file = new TFile (inputFile);     \color{pdcolor3}\it// load root file
+  TTree *tree = (TTree*)file->Get ("gst"); \color{pdcolor3}\it// get proper tree
+  
+  TH1D *leadingPip = new TH1D ("pip energy", "pip energy", 50, 0, 1);
+  
+  double leptonEnergy;      \color{pdcolor3}\it// lepton energy
+  int nParticlesFS;         \color{pdcolor3}\it// number of particle in final state
+  int nPip;                 \color{pdcolor3}\it// number of positive pion
+  int hadronPDG[100];       \color{pdcolor3}\it// final state hadron pdg
+  double hadronEnergy[100]; \color{pdcolor3}\it// final state hadron energy
+  
+  \color{pdcolor3}\it// set up branches
+  tree->SetBranchAddress ("El",    &leptonEnergy);
+  tree->SetBranchAddress ("nf",    &nParticlesFS);
+  tree->SetBranchAddress ("nfpip", &nPip);
+  tree->SetBranchAddress ("pdgf",  hadronPDG);
+  tree->SetBranchAddress ("Ef",    hadronEnergy);  
+  ...
+\end{Verbatim}
+ 
+\vfill\null
+\end{wideslide}
+
+\begin{wideslide}[method=direct, toc=]{Script example}
+\null\vfill
+ 
+\begin{Verbatim}[commandchars=\\\{\}]   
+  ...
+  const int nEvents = tree->GetEntries(); \color{pdcolor3}\it// get number of events
+
+  for (int i = 0; i < nEvents; i++) \color{pdcolor3}\it// events loop
+  \{
+      tree->GetEntry (i); \color{pdcolor3}\it// get i-th event
+      
+      if (nPip == 0) continue;
+      
+      double maxEnergy = 0.0;
+            
+      for (int j = 0; j < nParticlesFS; j++) \color{pdcolor3}\it// particle loop
+        if (hadronPDG[j] == 211 && hadronEnergy[j] > maxEnergy)
+	  maxEnergy = hadronEnergy[j];        
+            
+      leadingPip->Fill (maxEnergy);
+  \} \color{pdcolor3}\it// events loop
+  
+  leadingPip->Draw();
+\}
+\end{Verbatim}
+ 
+\vfill\null
+\end{wideslide}
+
+\begin{slide}[toc=Task 1]{Task 1: basic informations}
+\null\vfill
+
+  \begin{itemize}
+    \item Using interactive ROOT find the following information on the simulation:
+    
+    \sep
+    
+    \begin{itemize}
+     \item number of events
+     \item neutrino beam (flavor, energy)
+     \item target
+     \item dynamics
+    \end{itemize}
+  \end{itemize}
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc=Task 2]{Task 2: basic distributions}
+\null\vfill
+
+  \begin{itemize}
+    \item Using interactive ROOT plot the following distributions:
+    
+    \sep
+    
+    \begin{itemize}
+     \item proton energy (before FSI)
+     \item proton energy (after FSI)
+     \item lepton energy
+     \item lepton energy for QEL
+     \item lepton energy for all events with no meson in the final state
+    \end{itemize}
+  \end{itemize}
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc=Task 3]{Task 3: QEL}
+\null\vfill
+
+  \begin{itemize}
+    \item Lets define QEL-like events as those without mesons in the final state
+    \item On the same plot draw $\frac{d\sigma}{dQ^2}$ [in arbitrary units]:
+    
+    \sep
+    
+    \begin{itemize}
+      \item total QEL-like
+      \item contribution from true QEL
+      \item background for QEL
+    \end{itemize}
+
+    \item What cut could you apply to reduce background?
+    
+  \end{itemize}
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc=Task 4]{Task 4: reconstructed energy}
+\null\vfill
+
+  \begin{itemize}
+   
+    \item For QEL neutrino scattering on a nucleon at rest the incoming neutrino energy can be expressed by lepton kinematics:
+
+    $$E_\nu^{rec} = \frac{2(M_N - E_B)E_\mu - (E_B^2 - 2M_NE_B + m_\mu^2)}{2[M_N - E_B - E_\mu + |\vec k_\mu|\cos\theta_\mu]}$$
+    
+    \item Compare true and reconstructed neutrino energy for QEL events
+    
+    \item Compare true and reconstructed neutrino energy for QEL-like events
+
   \end{itemize}
 
 \vfill\null
