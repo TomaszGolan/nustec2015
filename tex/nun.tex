@@ -1,0 +1,153 @@
+\section[toc=$\nu N$ interactions]{Neutrino interactions: free nucleon}
+
+\begin{slide}[toc=(Q)EL scattering]{(Quasi-)elastic scattering}
+\null\vfill
+  
+  \twocolumn
+  {
+    \begin{itemize}
+     \item Llewellyn-Smith model is usually used for charged current quasi-elastic scattering
+     \item Not much difference here between generators (but default parameters)
+    \end{itemize}
+  }
+  {
+    \scalebox{0.75}{\input{figures/qelDiagram}}
+  }
+  
+  \sep
+  
+  \twocolumn
+  {
+    \centering\scalebox{0.5}{\input{figures/nucleon}}
+  }
+  {
+    \sep
+    \begin{itemize}
+     \item Nucleon structure is parametrized by form factors
+    \end{itemize}
+  }
+
+  \begin{itemize}
+    \item Vector $\rightarrow$ Conserved Vector Current (CVC)
+    \item Pseudo-scalar $\rightarrow$ Partially Conserved Axial Current (PCAC)
+    \item Axial $\rightarrow$ dipole form with one free parameter (axial mass, $M_A$)
+  \end{itemize}
+
+  
+\vfill\null
+\end{slide}
+
+\begin{wideslide}{Rein-Sehgal model}
+\null\vfill
+
+  \twocolumn
+  {
+    \sep\sep\sep
+ 
+    \centering\includegraphics[width=\columnwidth]{figures/rein.eps}
+  }
+  {
+    \centering\input{figures/resDiagram}
+    \begin{itemize}
+     \item Rein-Sehgal model describes single pion production through baryon resonances below $W = 2$~GeV
+     \item It is used by GENIE and NEUT
+     \item However, GENIE includes only 16 resonances and interference between them is neglected
+    \end{itemize}
+  }	
+
+\vfill\null
+\end{wideslide}
+
+\begin{slide}[toc=Deep Inelastic Scattering]{Deep inelastic scattering [DIS]}
+\null\vfill
+
+  \twocolumn
+  {
+    \sep
+    \begin{itemize}
+     \item Quark-parton model is used for deep inelastic scattering
+     \item Bodek-Young modification to the parton distributions at low $Q^2$ is included by most generators
+    \end{itemize}
+  }
+  {
+    \scalebox{0.75}{\input{figures/disDiagram}}
+  }
+  
+  \myBoxFullWidth{Hadronization}
+  
+  \twocolumn
+  {
+    \sep\sep\sep
+    \centering\scalebox{0.75}{\input{figures/hadronization}}
+  }
+  {
+    \begin{itemize}
+     \item Hadronization is the process of formation hadrons from quarks
+     \item Pythia is widely used at high invariant masses
+    \end{itemize}
+  }
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc=AGKY model]{Andreopoulos-Gallagher-Kehayias-Yang model}
+\null\vfill
+
+  \sep
+
+  \twocolumn
+  {
+    \begin{itemize}
+     \item AGKY hadronization model is used in GENIE
+    \end{itemize}
+  }
+  {
+    \centering\scalebox{0.75}{\input{figures/hadronization}}  
+  }
+  
+  \begin{itemize}
+    \item It includes phenomenological description of the low invariant mass based on Koba-Nielsen-Olesen (KNO) scaling
+    \item Pythia is used for the high invariant mass
+    \item The smooth transition between two models is made in a window $W \in [2.3, 3.0]$~GeV
+  \end{itemize}
+  
+  \sep
+  
+  \centering\input{figures/agky}
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc=$\pi$ in NuWro]{Pion production in NuWro}
+\null\vfill
+
+  \centering\input{figures/pionProduction}
+
+  \sep\sep
+  
+  \myFrameTextWidth[pdcolor6]{RES/DIS distinguish is arbitrary for each MC generator!}
+
+\vfill\null
+\end{slide}
+
+\begin{wideslide}{Transition region}
+\null\vfill
+
+  \begin{itemize}
+    \item We factorized the reality to RES and DIS 
+    \item We must be careful to avoid double counting
+    \item The smooth transition between RES and DIS is performed by each generator (but in slightly different way)
+    \item E.g. in GENIE:
+  \end{itemize}
+    
+  \begin{eqnarray*}
+    \frac{d^2\sigma^{RES}}{dQ^2dW} & = & \sum\limits_k \left(\frac{d^2\sigma^{R-S}}{dQ^2dW}\right)_k\cdot\Theta(W_{cut} - W) \\
+    \frac{d^2\sigma^{DIS}}{dQ^2dW} & = & \frac{d^2\sigma^{DIS,BY}}{dQ^2dW}\cdot\Theta(W - W_{cut}) + \frac{d^2\sigma^{DIS,BY}}{dQ^2dW}\cdot\Theta(W_{cut} - W)\cdot\sum\limits_m f_m
+  \end{eqnarray*}
+  
+  \sep
+  
+  where $k$ - sum over resonances in Rein-Sehgal model, $m$ - sum over multiplicity, $f_m = R_m\cdot P_m$ with $P_m$ - probability of given multiplicity (taken form hadronization model), $R_m$ - tunable parameter
+
+\vfill\null
+\end{wideslide}

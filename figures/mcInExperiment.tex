@@ -1,0 +1,26 @@
+\begin{tikzpicture}[node distance = 2cm and 1cm]
+    
+  \node (exp0) [filled={pdcolor3}, rect, round]                {Neutrino production};
+  \node (exp1) [filled={pdcolor6}, rect, round, right=of exp0] {Neutrino interaction};
+  \node (exp2) [filled={pdcolor3}, rect, round, right=of exp1] {Final state propagation};
+  
+  \node (mc0) [filled={pdcolor3}, rect, round, below=of exp0] {e.g. GEANT4};
+  \node (mc1) [filled={pdcolor6}, rect, round, right=of mc0]  {e.g. GENIE};
+  \node (mc2) [filled={pdcolor3}, rect, round, right=of mc1]  {e.g. GEANT4};
+
+  \begin{scope}[node distance = 1cm]
+   \node (exp) [filled={pdcolor1}, rectangle, minimum width = 9.5cm, text width = 9.5cm, minimum height = 1cm, above=of exp1] {EXPERIMENT};
+   \node (mc)  [filled={pdcolor1}, rectangle, minimum width = 9.5cm, text width = 9.5cm, minimum height = 1cm, below=of mc1]  {MONTE CARLO};
+  \end{scope}
+
+  \draw[line={pdcolor3}, ultra thick, ->] (exp0) -- (exp1);
+  \draw[line={pdcolor3}, ultra thick, ->] (exp1) -- (exp2);
+  
+  \draw[line={pdcolor3}, ultra thick, ->] (mc0) -- (mc1);
+  \draw[line={pdcolor3}, ultra thick, ->] (mc1) -- (mc2);
+
+  \draw[line={pdcolor3}, thick, <->] ([yshift=-10pt] exp0.south) -- ([yshift=10pt] mc0.north);
+  \draw[line={pdcolor6}, thick, <->] ([yshift=-10pt] exp1.south) -- ([yshift=10pt] mc1.north);
+  \draw[line={pdcolor3}, thick, <->] ([yshift=-10pt] exp2.south) -- ([yshift=10pt] mc2.north);
+  
+\end{tikzpicture}

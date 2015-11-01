@@ -1,0 +1,90 @@
+\section[toc=MC generators]{Monte Carlo neutrino event generators}
+
+\begin{slide}[toc=Common generators]{Monte Carlo event generators}
+\null\vfill
+
+  \rput(1.1\slidewidth, 0.55\slideheight){\scalebox{1.5}{\input{figures/mcgenlogo}}}
+  
+  \begin{itemize}
+    \item Monte Carlo generators \\ simulate interactions
+    \item Physicists have been using \\ them since ENIAC
+    \item Some common generators used \\ in neutrino community:
+    \sep\sep
+    \begin{itemize}
+      \item transport of particles through matter: {\bf Geant4}, {\bf FLUKA}
+      \item high-energy collisions of elementary particles: {\bf PYTHIA}
+      \item neutrino interactions: {\bf GENIE}, {\bf GIBUU}, {\bf NEUT}, {\bf NUANCE}, {\bf NuWro}
+    \end{itemize}
+  \end{itemize}
+
+\vfill\null
+\end{slide}
+
+\begin{slide}{Why do we need them?}
+\null\vfill
+    
+  \centering\input{figures/bridge}
+  
+  \sep\sep
+
+  \begin{itemize}
+    \item Monte Carlo event generators connect experiment (what we see) and theory (what we think we should see)
+    \item Any neutrino analysis relies on MC generators
+    \item From neutrino beam simulations, through neutrino interactions, to detector simulations
+    \item Used to evaluate systematic uncertainties, backgrounds, acceptances... 
+  \end{itemize}
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc=]{Why do we need them?}
+\null\vfill
+
+  \centering\input{figures/mcInExperiment}
+
+\vfill\null
+\end{slide}
+
+\begin{slide}[toc=The main problem]{What is the main problem?}
+\null\vfill
+
+  {\it\color{pdcolor3}\hfill ``You use Monte Carlo until you understand the problem''}\\
+  {\it\color{pdcolor3}\hfill Mark Kac}
+
+  \sep\sep\sep
+  
+  \twocolumn
+  {
+    \sep
+  
+    \begin{itemize}
+      \item In perfect world MC generators would contain ``pure'' theoretical models
+      \item In real world theory does not cover everything
+      \item Neutrino and non-neutrino data are used to tune generators
+    \end{itemize}
+  }
+  {
+    \centering\input{figures/mcDataCircle}
+  }
+  
+\vfill\null
+\end{slide}
+
+\begin{wideslide}[toc=Cooking generator]{How to build generator}
+\null\vfill
+
+  \sep
+
+  \twocolumn
+  {
+    \myBox{INGREDIENTS:} \sep
+    
+    \centering\scalebox{0.75}{\input{figures/mcingredients}}
+  }
+  {
+    \myBox{RECIPE:} \sep
+    \centering\includegraphics[width = \columnwidth]{figures/kociol}
+  }
+  
+\vfill\null
+\end{wideslide}

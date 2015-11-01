@@ -1,0 +1,13 @@
+\begin{tikzpicture}[node distance = 1cm]
+ 
+  \node (fsi) [ell, filled={pdcolor5}] {FSI};
+  \node (inc) [rect, filled={pdcolor1}, below=of fsi, yshift = 0.25cm] {Intranuke};
+  \node (hn) [rect, filled={pdcolor3}, left=of inc, yshift = -1.25cm] {hN Intranuke};
+  \node (ha) [rect, filled={pdcolor3}, right=of inc, yshift = -1.25cm] {hA Intranuke};
+  
+  \draw [line=pdcolor1, thick, ->] (fsi) -- (inc);
+  \draw [line=pdcolor3, thick, ->] (inc) -- (hn);
+  \draw [line=pdcolor3, thick, ->] (inc) -- (ha);
+  
+ 
+\end{tikzpicture}
